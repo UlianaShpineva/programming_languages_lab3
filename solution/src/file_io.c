@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 bool read_file(char* filename, FILE** file) {
     if (filename == NULL || (*file = fopen(filename, "rb")) == NULL) return false;

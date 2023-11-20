@@ -1,8 +1,9 @@
+#include "bmp.h"
+#include "image.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <inttypes.h>
-#include "bmp.h"
-#include "image.h"
 
 #define H_TYPE 0x4D42
 #define H_RESERVED 0
