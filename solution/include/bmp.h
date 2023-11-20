@@ -2,8 +2,9 @@
 #define BMP
 
 #include  <stdint.h>
-#include <stdio.h>
+
 #include "image.h"
+#include <stdio.h>
 
 #pragma pack(push, 1)
 struct bmp_header {

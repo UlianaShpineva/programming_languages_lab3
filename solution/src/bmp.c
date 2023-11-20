@@ -1,6 +1,6 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <inttypes.h>
-#include <stdlib.h>
 #include "bmp.h"
 #include "image.h"
 
@@ -14,8 +14,6 @@
 #define H_Y_PELS_PER_METER 2834
 #define H_CRL_USED 0
 #define H_CRL_IMPORTANT 0
-
-static void print_bmp_header(struct bmp_header const* header);
 
 enum read_status from_bmp(FILE* in, struct image** img) {
     struct bmp_header header;
@@ -70,6 +68,9 @@ enum write_status to_bmp(FILE* out, struct image const* img) {
     header->biClrImportant = H_CRL_IMPORTANT;
     
     if (!fwrite(header, sizeof(struct bmp_header), 1, out)) {
+        if (header) {
+            free(header);
+        }
         return WRITE_ERROR_HEADER;
     }
     
@@ -77,11 +78,16 @@ enum write_status to_bmp(FILE* out, struct image const* img) {
     size_t str_cnt = 0;
     for (size_t i = 0; i < img->height; i++) {
         if (!fwrite((img->data) + str_cnt, sizeof(struct pixel), img->width, out)) {
+            if (header) {
+                free(header);
+            }
             return WRITE_ERROR_BITS;
         }
         fseek(out, (long)padding, SEEK_CUR);
         str_cnt += img->width;
     }
-
+    if (header) {
+        free(header);
+    }
     return WRITE_OK;
 }

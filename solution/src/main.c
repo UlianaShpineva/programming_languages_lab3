@@ -1,10 +1,10 @@
 #include "image.h"
 #include "bmp.h"
-#include"rotation.h"
 #include "file_io.h"
+#include"rotation.h"
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define ERROR_EXIT_CODE 1

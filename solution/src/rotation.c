@@ -1,8 +1,8 @@
 #include "image.h"
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
 #include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static struct image rotate(struct image const source) {
     struct image rotated = { .width = source.height, .height = source.width, .data = malloc(source.height * source.width * sizeof(struct pixel)) };
@@ -20,11 +20,10 @@ static struct image rotate(struct image const source) {
 struct image image_rotation(struct image const source, int angle) {
     struct image rotated = { .width = source.width, .height = source.height, .data = malloc(source.height * source.width * sizeof(struct pixel))};
 
-    for (size_t i = 0; i < source.width * source.height; ++i) {
+    for (size_t i = 0; i < source.width * source.height; i++) {
         rotated.data[i] = source.data[i];
     }
-    int cnt = 0;
-    //printf("angle %d \n\n", angle);
+    size_t cnt;
     switch (angle) {
         case 90:
         case -270:
@@ -38,9 +37,9 @@ struct image image_rotation(struct image const source, int angle) {
         case -90:
             cnt = 3;
             break;
+        case 0:
         default:
             cnt = 0;
-            return source;
             break;
     }
     for (size_t i = 0; i < cnt; i++) {
