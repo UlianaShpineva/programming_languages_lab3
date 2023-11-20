@@ -36,14 +36,20 @@ int main( int argc, char** argv ) {
     switch (read_bmp_status)
     {
     case READ_INVALID_HEADER:
+        free(img->data);
+        free(img);
         fprintf(stderr, "Couldn't read header");
         return ERROR_EXIT_CODE;
         break;
     case READ_INVALID_SIGNATURE:
+        free(img->data);
+        free(img);
         fprintf(stderr, "Wrong file format");
         return ERROR_EXIT_CODE;
         break;
     case READ_INVALID_BITS:
+        free(img->data);
+        free(img);
         fprintf(stderr, "Couldn't read data");
         return ERROR_EXIT_CODE;
         break;
@@ -55,7 +61,8 @@ int main( int argc, char** argv ) {
 
     struct image rotated = { 0 };
     rotated = image_rotation(*img, inp_angle);
-    free((*img).data);
+    free(img->data);
+    free(img);
     bool close_inp_file_status = close_file(inp_file);
     if (!close_inp_file_status) {
         fprintf(stderr, "Couldn't close input file %s", inp_filename);
@@ -71,14 +78,17 @@ int main( int argc, char** argv ) {
     }
     
     enum write_status write_bmp_status = to_bmp(outp_file, &rotated);
-    free(rotated.data);
     switch (write_bmp_status)
     {
     case WRITE_ERROR_HEADER:
+        free((&rotated)->data);
+        free(&rotated);
         fprintf(stderr, "Couldn't write header");
         return ERROR_EXIT_CODE;
         break;
     case WRITE_ERROR_BITS:
+        free((&rotated)->data);
+        free(&rotated);
         fprintf(stderr, "Couldn't write data");
         return ERROR_EXIT_CODE;
         break;
@@ -87,7 +97,8 @@ int main( int argc, char** argv ) {
         fprintf(stdout, "Successfully write file.");
         break;
     }
-
+    free((&rotated)->data);
+    free(&rotated);
     bool close_outp_file_status = close_file(outp_file);
     if (!close_outp_file_status) {
         fprintf(stderr, "Couldn't close output file %s", outp_filename);
