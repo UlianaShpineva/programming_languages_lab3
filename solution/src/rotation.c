@@ -23,6 +23,13 @@ static struct image rotate(struct image const source) {
 }
 
 struct image image_rotation(struct image source, int angle) {
+    struct image rotated = { 0 };
+    rotated.width = source.width;
+    rotated.height = source.height;
+    rotated.data = malloc(source.height * source.width * sizeof(struct pixel));
+    for (size_t i = 0; i < rotated.height * rotated.width; i++) {
+        rotated.data[i] = source.data[i];
+    }
     size_t cnt;
     switch (angle) {
         case 90:
@@ -43,9 +50,9 @@ struct image image_rotation(struct image source, int angle) {
             break;
     }
     for (size_t i = 0; i < cnt; i++) {
-        struct image tmp_img = rotate(source);
-        free(source.data);
-        source = tmp_img;
+        struct image tmp_img = rotate(rotated);
+        free(rotated.data);
+        rotated = tmp_img;
     }
-    return source;
+    return rotated;
 }

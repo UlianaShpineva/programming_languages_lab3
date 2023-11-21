@@ -55,7 +55,7 @@ int main( int argc, char** argv ) {
 
     struct image rotated = { 0 };
     rotated = image_rotation(img, inp_angle);
-    
+    free(img.data);
     bool close_inp_file_status = close_file(inp_file);
     if (!close_inp_file_status) {
         free(rotated.data);
