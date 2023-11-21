@@ -5,15 +5,20 @@
 #include <stdlib.h>
 
 static struct image rotate(struct image const source) {
-    struct image rotated = { .width = source.height, .height = source.width, .data = malloc(source.height * source.width * sizeof(struct pixel)) };
-    size_t str_cnt = 0;
+    struct image rotated = { 0 };
+    
+    rotated.width = source.height;
+    rotated.height = source.width;
+    rotated.data = malloc(source.height * source.width * sizeof(struct pixel));
+    if (rotated.data == NULL) {
+        free(rotated.data);
+        return source;
+    }
     for (size_t i = 0; i < rotated.height; i++) {
         for (size_t j = 0; j < rotated.width; j++) {
-            rotated.data[str_cnt + j] = source.data[source.width * (j + 1) - i - 1];
+            rotated.data[rotated.width * i + j] = source.data[source.width * (j + 1) - i - 1];
         }
-        str_cnt += rotated.width;
     }
-
     return rotated;
 }
 
