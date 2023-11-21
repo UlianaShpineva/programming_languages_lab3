@@ -10,13 +10,11 @@ static struct image rotate(struct image const source) {
     rotated.width = source.height;
     rotated.height = source.width;
     rotated.data = malloc(source.height * source.width * sizeof(struct pixel));
-    if (rotated.data == NULL) {
-        free(rotated.data);
-        return source;
-    }
-    for (size_t i = 0; i < rotated.height; i++) {
-        for (size_t j = 0; j < rotated.width; j++) {
-            rotated.data[rotated.width * i + j] = source.data[source.width * (j + 1) - i - 1];
+    if (rotated.data != NULL && source.data) {
+        for (size_t i = 0; i < rotated.height; i++) {
+            for (size_t j = 0; j < rotated.width; j++) {
+                rotated.data[rotated.width * i + j] = source.data[source.width * (j + 1) - i - 1];
+            }
         }
     }
     return rotated;
@@ -32,28 +30,26 @@ struct image image_rotation(struct image source, int angle) {
     }
     size_t cnt;
     switch (angle) {
-        case 90:
-        case -270:
-            cnt = 1;
-            break;
-        case 180:
-        case -180:
-            cnt = 2;
-            break;
-        case 270:
-        case -90:
-            cnt = 3;
-            break;
-        case 0:
-        default:
-            cnt = 0;
-            break;
+    case 90:
+    case -270:
+        cnt = 1;
+        break;
+    case 180:
+    case -180:
+        cnt = 2;
+        break;
+    case 270:
+    case -90:
+        cnt = 3;
+        break;
+    case 0:
+    default:
+        cnt = 0;
+        break;
     }
     for (size_t i = 0; i < cnt; i++) {
         struct image tmp_img = rotate(rotated);
-        if (rotated.data) {
-            free(rotated.data);
-        }
+        //free(rotated.data);
         rotated = tmp_img;
     }
     return rotated;

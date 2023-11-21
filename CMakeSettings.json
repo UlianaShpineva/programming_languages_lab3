@@ -7,7 +7,14 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "buildCommandArgs": ""
+      "buildCommandArgs": "",
+      "variables": [
+        {
+          "name": "CLANG_TIDY",
+          "value": "",
+          "type": "FILEPATH"
+        }
+      ]
     },
     {
       "name": "x64-Release",
@@ -29,7 +36,14 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CLANG_TIDY",
+          "value": "C:/Program Files/LLVM/include/clang-c/BuildSystem.h",
+          "type": "FILEPATH"
+        }
+      ]
     }
   ]
 }
