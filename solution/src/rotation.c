@@ -49,7 +49,7 @@ struct image image_rotation(struct image source, int angle) {
     }
     for (size_t i = 0; i < cnt; i++) {
         struct image tmp_img = rotate(rotated);
-        //free(rotated.data);
+        free(rotated.data);
         rotated = tmp_img;
     }
     return rotated;
