@@ -1,8 +1,8 @@
 #include "image.h"
 #include "bmp.h"
 #include <inttypes.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 
