@@ -1,5 +1,6 @@
 #include "bmp.h"
 #include "image.h"
+#include "utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,11 +28,8 @@ enum read_status from_bmp(FILE* in, struct image* img) {
 
     fseek(in, header.bOffBits, SEEK_SET);
     
-    img->height = (int64_t) header.biHeight;
-    img->width = (int64_t) header.biWidth;
-    img->data = malloc(sizeof(struct pixel) * header.biHeight * header.biWidth);
-    if (img->data == NULL) {
-        free(img->data);
+    bool img_b = create_image(img, (int64_t)header.biWidth, (uint64_t)header.biHeight);
+    if (!img_b) {
         return READ_INVALID_BITS;
     }
     uint16_t padding = (4 - (3 * img->width) % 4) % 4;
